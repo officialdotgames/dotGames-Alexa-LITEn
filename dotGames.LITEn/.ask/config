@@ -1,0 +1,19 @@
+{
+  "deploy_settings": {
+    "default": {
+      "skill_id": "amzn1.ask.skill.db7229c3-763b-43b4-ac53-c6870b9e912c",
+      "was_cloned": false,
+      "merge": {
+        "manifest": {
+          "apis": {
+            "custom": {
+              "endpoint": {
+                "uri": "ask-custom-dotGames.LITEn-default"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
