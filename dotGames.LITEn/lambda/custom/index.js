@@ -3,7 +3,7 @@ exports.__esModule = true;
 var Alexa = require("alexa-sdk");
 var Request = require("request");
 /*         let token = this.event.session.user.accessToken; */
-var APP_ID = "17ead988-5dda-4eaa-8937-6c172f019354";
+var APP_ID = "b1db8a57-e5c0-490d-8488-77112b457d36";
 var handlers = {
     'LaunchRequest': function () {
         this.emit('AMAZON.HelpIntent');
@@ -13,14 +13,68 @@ var handlers = {
         console.log('Session ended with reason: ' + request.reason);
     },
     'Continue': function () {
-        this.response.speak(APP_ID);
-        this.emit(':responseReady');
+        var self = this;
+        var options = {
+            url: 'https://liten.keisenb.io/v1/api/liten/game/generate',
+            headers: {
+                'Authorization': 'Bearer ' + APP_ID
+            }
+        };
+        Request.post(options, function (error, response) {
+            if (!response) {
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+            if (response.statusCode != 200) {
+                if (response.statusCode == 401) {
+                    self.response.speak('Invalid state');
+                    self.emit(':responseReady');
+                    return;
+                }
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+        });
     },
     'PlayIntent': function () {
         var request = this.event.request;
         var name = request.intent.slots.color.value;
-        this.response.speak('Color is ' + name);
-        this.emit(':responseReady');
+        var options = {
+            url: 'https://liten.keisenb.io/v1/api/liten/game/submit',
+            headers: {
+                'Authorization': 'Bearer ' + APP_ID
+            }
+        };
+        var self = this;
+        Request.post(options, function (error, response) {
+            if (!response) {
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+            if (response.statusCode != 200) {
+                if (response.statusCode == 401) {
+                    self.response.speak('Invalid state');
+                    self.emit(':responseReady');
+                    return;
+                }
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+            self.response.speak("The round is beginning");
+            self.emit(':responseReady');
+        });
+        /*if(CHECK BODY){
+          this.response.speak('Correct');
+          this.emit(':responseReady');
+        }
+        else{
+          this.response.speak('Incorrect');
+          this.emit(':responseReady');
+        }*/
     },
     'CreateGame': function () {
         var self = this;
@@ -30,7 +84,7 @@ var handlers = {
                 'Authorization': 'Bearer ' + APP_ID
             }
         };
-        Request.get(options, function (error, response) {
+        Request.post(options, function (error, response) {
             if (!response) {
                 self.response.speak('I am having issues talking to dot games');
                 self.emit(':responseReady');
