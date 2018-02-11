@@ -31,15 +31,18 @@
                     ]
                 },
                 {
-                    "name":"Play",
-                    "slots" : [
-                      {
-                        "name" : "Color",
-                        "type" : "AMAZON.Color"
-                      }
+                    "name":"PlayIntent",
+                    "slots":[
+                        {
+                            "name":"color",
+                            "type":"AMAZON.Color"
+                        }
                     ],
                     "samples":[
-                        "{Color}"
+                        "play {color}",
+                        "play {color} {color}",
+                        "play {color} {color} {color}",
+                        "play {color} {color} {color} {color}"
                     ]
                 }
             ]

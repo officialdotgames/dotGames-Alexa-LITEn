@@ -14,14 +14,45 @@ var handlers = {
         this.response.speak('Testing mode, accessing lighten');
         this.emit(':responseReady');
     },
-    'Play': function () {
+    'PlayIntent': function () {
         var request = this.event.request;
-        var color = request.intent.slots["color"].value;
-        this.response.speak("Color is garbage");
-        this.emit(':resopnseReady');
+        var name = request.intent.slots.color.value;
+        this.response.speak('Color is ' + name);
+        this.emit(':responseReady');
     },
     'CreateGame': function () {
-        this.response.speak('Creating game');
+        var token = this.event.session.user.accessToken;
+        var self = this;
+        var options = {
+            url: 'https://liten.keisenb.io/v1/api/liten/game/start',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        };
+        self.response.speak('Authorization with dotGames required')
+            .linkAccountCard();
+        /*
+              Request.get(options, function (error, response) {
+                  if (!response) {
+                      self.response.speak('I am having issues geting your rent');
+                      self.emit(':responseReady');
+                      return;
+                  }
+        
+                  if(response.statusCode != 200) {
+                      if(response.statusCode == 401) {
+                          self.response.speak('Authorization with dotGames required')
+                                       .linkAccountCard();
+                          self.emit(':responseReady');
+                          return;
+                      }
+        
+                      self.response.speak('I am having issues geting your rent');
+                      self.emit(':responseReady');
+        
+                      return;
+                  }*/
+        //this.response.speak('Creating game');
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
