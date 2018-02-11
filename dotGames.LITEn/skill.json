@@ -5,9 +5,7 @@
         "en-US": {
           "summary": "Sample Short Description",
           "examplePhrases": [
-            "Alexa open hello world",
-            "Alexa tell hello world I am Jeff",
-            "Alexa tell hello world my name is Peter"
+            "Alexa open lighten"
           ],
           "name": "dotGames.LITEn",
           "description": "Sample Full Description"

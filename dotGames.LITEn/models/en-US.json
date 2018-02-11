@@ -1,7 +1,7 @@
 {
     "interactionModel":{
         "languageModel":{
-            "invocationName":"hello world",
+            "invocationName":"lighten",
             "types":[],
             "intents":[
                 {
@@ -17,28 +17,29 @@
                   "samples": []
                 },
                 {
-                    "name":"HelloWorldIntent",
-                    "slots":[
-
-                    ],
+                    "name":"CreateGame",
                     "samples":[
-                        "hello",
-                        "say hello",
-                        "say hello world"
+                        "lighten",
+                        "create game",
+                        "make a new game"
                     ]
                 },
                 {
-                    "name":"MyNameIsIntent",
-                    "slots":[
-                        {
-                            "name":"name",
-                            "type":"AMAZON.US_FIRST_NAME"
-                        }
+                    "name":"Continue",
+                    "samples":[
+                        "continue"
+                    ]
+                },
+                {
+                    "name":"Play",
+                    "slots" : [
+                      {
+                        "name" : "Color",
+                        "type" : "AMAZON.Color"
+                      }
                     ],
                     "samples":[
-                        "my name is {name}",
-                        "i am {name}",
-                        "you can call me {name}"
+                        "{Color}"
                     ]
                 }
             ]

@@ -1,7 +1,7 @@
 {
-  "name": "skill-sample-nodejs-hello-world",
+  "name": "dotGames.LITEn",
   "version": "1.0.0",
-  "description": "Hello world sample skill",
+  "description": "dotGames LITEn",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
