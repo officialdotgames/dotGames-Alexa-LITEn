@@ -1,7 +1,9 @@
 "use strict";
 exports.__esModule = true;
 var Alexa = require("alexa-sdk");
+var Request = require("request");
 /*         let token = this.event.session.user.accessToken; */
+var APP_ID = "17ead988-5dda-4eaa-8937-6c172f019354";
 var handlers = {
     'LaunchRequest': function () {
         this.emit('AMAZON.HelpIntent');
@@ -11,7 +13,7 @@ var handlers = {
         console.log('Session ended with reason: ' + request.reason);
     },
     'Continue': function () {
-        this.response.speak('Testing mode, accessing lighten');
+        this.response.speak(APP_ID);
         this.emit(':responseReady');
     },
     'PlayIntent': function () {
@@ -21,39 +23,32 @@ var handlers = {
         this.emit(':responseReady');
     },
     'CreateGame': function () {
-        var token = this.event.session.user.accessToken;
         var self = this;
         var options = {
             url: 'https://liten.keisenb.io/v1/api/liten/game/start',
             headers: {
-                'Authorization': 'Bearer ' + token
+                'Authorization': 'Bearer ' + APP_ID
             }
         };
-        self.response.speak('Authorization with dotGames required')
-            .linkAccountCard();
-        /*
-              Request.get(options, function (error, response) {
-                  if (!response) {
-                      self.response.speak('I am having issues geting your rent');
-                      self.emit(':responseReady');
-                      return;
-                  }
-        
-                  if(response.statusCode != 200) {
-                      if(response.statusCode == 401) {
-                          self.response.speak('Authorization with dotGames required')
-                                       .linkAccountCard();
-                          self.emit(':responseReady');
-                          return;
-                      }
-        
-                      self.response.speak('I am having issues geting your rent');
-                      self.emit(':responseReady');
-        
-                      return;
-                  }*/
-        //this.response.speak('Creating game');
-        this.emit(':responseReady');
+        Request.get(options, function (error, response) {
+            if (!response) {
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+            if (response.statusCode != 200) {
+                if (response.statusCode == 401) {
+                    self.response.speak('Invalid state');
+                    self.emit(':responseReady');
+                    return;
+                }
+                self.response.speak('I am having issues talking to dot games');
+                self.emit(':responseReady');
+                return;
+            }
+            self.response.speak("Game successfully created.  Say continue to show pattern");
+            self.emit(':responseReady');
+        });
     },
     'AMAZON.StopIntent': function () {
         this.response.speak('Bye');
